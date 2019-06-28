@@ -12,6 +12,14 @@ For weather you need a weather api key. For elevation you need to set up an
 [elvation api server](https://github.com/Jorl17/open-elevation). The elevation api server
 requires some disk space; a $5 Lightsail server with 40G disk works.
 
+For each location that you save in your history you can also write some notes,
+including support for [markdown](https://pub.dev/packages/flutter_markdown),
+and including import/export from [markdown](https://pub.dev/packages/flutter_markdown) or
+plain text file.
+
+Data is cached locally in sqlite using [sqflite](https://pub.dev/packages/sqflite),
+in order to economize network request tasks.
+
 _____
 ### main screen
 ![main screen](https://raw.githubusercontent.com/TrentSPalmer/libre_gps_parser/master/screenshots/Screenshot_20190626-230011_Libre_Gps_Parser.png)
