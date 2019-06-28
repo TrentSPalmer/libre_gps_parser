@@ -1,3 +1,4 @@
+import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'global_helper_functions.dart';
 
@@ -24,6 +25,13 @@ InkWell aboutApp(BuildContext context) {
         context: context,
         builder: (BuildContext context) {
           final double textHeight = 1.5;
+          Future<void> _launchLicense() async{
+            AndroidIntent intent = AndroidIntent(
+                action: 'action_view',
+                data: Uri.encodeFull('https://github.com/TrentSPalmer/libre_gps_parser/blob/master/LICENSE'),
+            );
+            await intent.launch();
+          }
           return AlertDialog(
             backgroundColor: ivory,
             shape: RoundedRectangleBorder(
@@ -44,6 +52,12 @@ InkWell aboutApp(BuildContext context) {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        Text(
+                          'Version: 0.1.1\n',
+                          style: TextStyle(
+                            color: candyApple,
+                          ),
+                        ),
                         Text(
                           'The essence of Libre Gps Parser, is to parse gps coordinates from '
                           'a map link that you share from the Google Maps Application. '
@@ -109,7 +123,7 @@ InkWell aboutApp(BuildContext context) {
                                       ),
                                     ),
                                     onPressed: () {
-                                      Navigator.of(context).pop();
+                                      _launchLicense();
                                     }
                                   ),
                                 ),

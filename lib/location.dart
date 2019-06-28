@@ -45,7 +45,6 @@ class _LocationState extends State<Location> {
     } 
 
     try {
-
       return Row(
         children: <Widget>[
           Expanded(
