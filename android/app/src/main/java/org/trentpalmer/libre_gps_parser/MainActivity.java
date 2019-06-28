@@ -1,4 +1,4 @@
-package org.trentpalmer.lnl_share;
+package org.trentpalmer.libre_gps_parser;
 
 import android.content.Intent;
 import android.os.Bundle;
