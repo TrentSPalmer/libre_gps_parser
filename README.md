@@ -34,6 +34,9 @@ _____
 ![main screen](https://raw.githubusercontent.com/TrentSPalmer/libre_gps_parser/master/screenshots/Screenshot_20190626-230633_Libre_Gps_Parser.png)
 _____
 
-## to be implemented
+## road map
 *
 * add more things to be implemented
+* add input from Bing Maps, Mapquest apps
+* add other elevation api server options
+* database export and import
