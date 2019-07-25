@@ -1,5 +1,6 @@
 // https://github.com/tekartik/sqflite/blob/master/sqflite/doc/migration_example.md
 import 'dart:io';
+import 'dart:convert';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -252,5 +253,11 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db
         .delete(table, where: '$columnMapLocation = ?', whereArgs: [ml]);
+  }
+
+  Future<String> queryDBExport() async{
+    Database db = await instance.database;
+    List<Map> result = await db.rawQuery('SELECT $columnMapLocation,$columnNotes,$columnIsAutoTimeOffset,$columnTimeOffSet FROM $table');
+    return(jsonEncode(result));
   }
 }

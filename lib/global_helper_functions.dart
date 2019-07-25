@@ -391,3 +391,41 @@ Future<bool> setPreferenceUseWeather(bool useWeather) async {
   bool committed = await prefs.setBool("useWeather", useWeather);
   return (committed);
 }
+
+Future<String> getPreferenceDBExportFileName() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String dbExportFileName = prefs.getString("dbExportFileName") ?? "libre_gps_parser.json";
+  return (dbExportFileName.length > 0) ? dbExportFileName : "libre_gps_parser.json";
+}
+
+Future<bool> setPreferenceDBExportFileName(String dbExportFileName) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool committed = await prefs.setString("dbExportFileName", dbExportFileName);
+  return (committed);
+}
+
+Future<bool> importDataBase(String importString) {
+  final dbHelper = DatabaseHelper.instance;
+  final int _timeStamp = newTimeStamp();
+  List<dynamic> _importJson = jsonDecode(importString);
+  int _importJsonLength = _importJson.length;
+  for (int i = 0; i < _importJsonLength; i++) {
+    dbHelper.queryRowExists(_importJson[i]['mapLocation']).then((int rowExists) {
+      if (rowExists == 0) {
+        Map<String, dynamic> row = {
+          DatabaseHelper.columnMapLocation: _importJson[i]['mapLocation'],
+        };
+        if (_importJson[i]['notes'] != null) {
+          row['notes'] = _importJson[i]['notes'];
+        } 
+        if (_importJson[i]['isAutoTimeOffset'] == 0) {
+          row['timeOffSet'] = _importJson[i]['timeOffSet'];
+          row['timeOffSetTime'] = _timeStamp;
+          row['isAutoTimeOffset'] = _importJson[i]['isAutoTimeOffset'];
+        } 
+        dbHelper.insert(row);
+      }
+    });
+  }
+  return Future.value(true);
+}

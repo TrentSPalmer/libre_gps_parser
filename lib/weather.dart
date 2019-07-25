@@ -901,7 +901,7 @@ class _WeatherState extends State<Weather> {
       return Container(
         width: 100,
         child: CachedNetworkImage(
-          imageUrl: 'https://openweathermap.org/img/w/${widget.weatherConditionsIcon}.png',
+          imageUrl: 'http://openweathermap.org/img/w/${widget.weatherConditionsIcon}.png',
         ),
       );
     }

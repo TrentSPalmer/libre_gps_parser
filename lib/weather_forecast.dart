@@ -81,7 +81,7 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
           return Container(
             width: 100,
             child: CachedNetworkImage(
-              imageUrl: 'https://openweathermap.org/img/w/${foreCast['weather'][0]['icon']}.png',
+              imageUrl: 'http://openweathermap.org/img/w/${foreCast['weather'][0]['icon']}.png',
             ),
           );
         }
