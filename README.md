@@ -39,4 +39,3 @@ _____
 * add more things to be implemented
 * add input from Bing Maps, Mapquest apps
 * add other elevation api server options
-* database export and import
