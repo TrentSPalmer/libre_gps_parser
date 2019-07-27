@@ -5,7 +5,7 @@ import 'package:share/share.dart';
 final double textHeight = 1.5;
 
 Row lnlDeg(String latnLongDMS) {
-  List<String> _latNLong = ['x','y'];
+  List<String> _latNLong = ['x', 'y'];
   if ((latnLongDMS == 'none') || (latnLongDMS == null)) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -60,7 +60,7 @@ Row lnlDeg(String latnLongDMS) {
         ),
       ],
     );
-  } else { 
+  } else {
     _latNLong = latnLongDMS.split(',');
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

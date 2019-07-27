@@ -63,76 +63,82 @@ class _WeatherState extends State<Weather> {
     final bool _stale = (_staleness > 3600);
 
     Expanded _refresh() {
-      return _stale ? Expanded(
-      flex: 4,
-      child: Container(
-        child: IconButton(
-          icon: Icon(Icons.refresh),
-          tooltip: 'refresh weather',
-          iconSize: 60,
-          color: candyApple,
-          onPressed: () {
-            widget.parentAction();
-          },
-        ),
-      ),) : Expanded(child: Container());
+      return _stale
+          ? Expanded(
+              flex: 4,
+              child: Container(
+                child: IconButton(
+                  icon: Icon(Icons.refresh),
+                  tooltip: 'refresh weather',
+                  iconSize: 60,
+                  color: candyApple,
+                  onPressed: () {
+                    widget.parentAction();
+                  },
+                ),
+              ),
+            )
+          : Expanded(child: Container());
     }
-    
+
     Expanded _staleNotice() {
-      return _stale ? Expanded(
-        flex: 6,
-        child: RichText(
-          textAlign: TextAlign.justify,
-          text: TextSpan(
-            children: <TextSpan>[
-              TextSpan(
-                text: 'The Current Weather Report is stale by more than ',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+      return _stale
+          ? Expanded(
+              flex: 6,
+              child: RichText(
+                textAlign: TextAlign.justify,
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'The Current Weather Report is stale by more than ',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${(_staleness / 3600).floor()} ',
+                      style: TextStyle(
+                        color: candyApple,
+                        fontSize: 16,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'hours',
+                      style: TextStyle(
+                        color: candyApple,
+                        fontSize: 16,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    TextSpan(
+                      text:
+                          '. You probably want to check your network connection and then ',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'refresh',
+                      style: TextStyle(
+                        color: candyApple,
+                        fontSize: 16,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '.',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              TextSpan(
-                text: '${(_staleness / 3600).floor()} ',
-                style: TextStyle(
-                  color: candyApple,
-                  fontSize: 16,
-                ),
-              ),
-              TextSpan(
-                text: 'hours',
-                style: TextStyle(
-                  color: candyApple,
-                  fontSize: 16,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              TextSpan(
-                text: '. You probably want to check your network connection and then ',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-              TextSpan(
-                text: 'refresh',
-                style: TextStyle(
-                  color: candyApple,
-                  fontSize: 16,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              TextSpan(
-                text: '.',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ) : Expanded(child: Container());
+            )
+          : Expanded(child: Container());
     }
 
     Column _currentConditions() {
@@ -179,7 +185,7 @@ class _WeatherState extends State<Weather> {
         ],
       );
     }
-    
+
     Column _temps() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -247,8 +253,7 @@ class _WeatherState extends State<Weather> {
                   ),
                 ),
                 TextSpan(
-                  text:
-                      '${widget.weatherCurrentTempMin.round()}\u00B0',
+                  text: '${widget.weatherCurrentTempMin.round()}\u00B0',
                   style: TextStyle(
                     height: textHeight,
                     color: Colors.black,
@@ -298,8 +303,7 @@ class _WeatherState extends State<Weather> {
                   ),
                 ),
                 TextSpan(
-                  text:
-                      '${widget.weatherCurrentTempMax.round()}\u00B0',
+                  text: '${widget.weatherCurrentTempMax.round()}\u00B0',
                   style: TextStyle(
                     height: textHeight,
                     color: Colors.black,
@@ -468,8 +472,7 @@ class _WeatherState extends State<Weather> {
             text: TextSpan(
               children: <TextSpan>[
                 TextSpan(
-                  text:
-                      '${(widget.weatherCurrentWindSpd * 1.60934).round()}',
+                  text: '${(widget.weatherCurrentWindSpd * 1.60934).round()}',
                   style: TextStyle(
                     height: textHeight,
                     color: Colors.black,
@@ -901,7 +904,8 @@ class _WeatherState extends State<Weather> {
       return Container(
         width: 100,
         child: CachedNetworkImage(
-          imageUrl: 'http://openweathermap.org/img/w/${widget.weatherConditionsIcon}.png',
+          imageUrl:
+              'http://openweathermap.org/img/w/${widget.weatherConditionsIcon}.png',
         ),
       );
     }
@@ -909,8 +913,8 @@ class _WeatherState extends State<Weather> {
     if (widget.weatherConditions == '') {
       return Container(
         margin: EdgeInsets.symmetric(
-            vertical: 3,
-            horizontal: 6,
+          vertical: 3,
+          horizontal: 6,
         ),
         padding: myBoxPadding,
         decoration: myBoxDecoration(_stale ? Colors.grey : ivory),
@@ -937,285 +941,284 @@ class _WeatherState extends State<Weather> {
     } else if (_deviceWidth < 400) {
       return Container(
         margin: EdgeInsets.symmetric(
-            vertical: 3,
-            horizontal: 6,
+          vertical: 3,
+          horizontal: 6,
         ),
         padding: myBoxPadding,
         decoration: myBoxDecoration(_stale ? Colors.grey : ivory),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 16.0,
-                  bottom: 2.0,
-                  right: 25.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    _refresh(),
-                    _staleNotice(),
-                  ],
-                ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                top: 16.0,
+                bottom: 2.0,
+                right: 25.0,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _icon(),
-                    _currentConditions(),
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  _refresh(),
+                  _staleNotice(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _updateTime(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _icon(),
+                  _currentConditions(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _temps(),
-                    _wind(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _updateTime(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _pressure(),
-                    _visibility(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _temps(),
+                  _wind(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _sunRise(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _pressure(),
+                  _visibility(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _sunSet(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _sunRise(),
+                ],
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _sunSet(),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
     } else if ((_deviceWidth >= 400) && (_deviceWidth < 650)) {
       return Container(
         margin: EdgeInsets.symmetric(
-            vertical: 3,
-            horizontal: 6,
+          vertical: 3,
+          horizontal: 6,
         ),
         padding: myBoxPadding,
         decoration: myBoxDecoration(_stale ? Colors.grey : ivory),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 16.0,
-                  bottom: 2.0,
-                  right: 25.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    _refresh(),
-                    _staleNotice(),
-                  ],
-                ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                top: 16.0,
+                bottom: 2.0,
+                right: 25.0,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _icon(),
-                    _currentConditions(),
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  _refresh(),
+                  _staleNotice(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _updateTime(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _icon(),
+                  _currentConditions(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _temps(),
-                    _wind(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _updateTime(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _sunRise(),
-                    _pressure(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _temps(),
+                  _wind(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _sunSet(),
-                    _visibility(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _sunRise(),
+                  _pressure(),
+                ],
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _sunSet(),
+                  _visibility(),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
     } else if ((_deviceWidth >= 650) && (_deviceWidth < 1000)) {
       return Container(
         margin: EdgeInsets.symmetric(
-            vertical: 3,
-            horizontal: 6,
+          vertical: 3,
+          horizontal: 6,
         ),
         padding: myBoxPadding,
         decoration: myBoxDecoration(_stale ? Colors.grey : ivory),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 16.0,
-                  bottom: 2.0,
-                  right: 25.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    _refresh(),
-                    _staleNotice(),
-                  ],
-                ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                top: 16.0,
+                bottom: 2.0,
+                right: 25.0,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _icon(),
-                    _currentConditions(),
-                    _temps(),
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  _refresh(),
+                  _staleNotice(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _updateTime(),
-                    _visibility(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _icon(),
+                  _currentConditions(),
+                  _temps(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _sunRise(),
-                    _wind(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _updateTime(),
+                  _visibility(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _sunSet(),
-                    _pressure(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _sunRise(),
+                  _wind(),
+                ],
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _sunSet(),
+                  _pressure(),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
     } else if (_deviceWidth >= 1000) {
       return Container(
         margin: EdgeInsets.symmetric(
-            vertical: 3,
-            horizontal: 6,
+          vertical: 3,
+          horizontal: 6,
         ),
         padding: myBoxPadding,
         decoration: myBoxDecoration(_stale ? Colors.grey : ivory),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 16.0,
-                  bottom: 2.0,
-                  right: 25.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    _refresh(),
-                    _staleNotice(),
-                  ],
-                ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                top: 16.0,
+                bottom: 2.0,
+                right: 25.0,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _icon(),
-                    _currentConditions(),
-                    _temps(),
-                    _visibility(),
-                    _updateTime(),
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  _refresh(),
+                  _staleNotice(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _pressure(),
-                    _sunRise(),
-                    _sunSet(),
-                    _wind(),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _icon(),
+                  _currentConditions(),
+                  _temps(),
+                  _visibility(),
+                  _updateTime(),
+                ],
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _pressure(),
+                  _sunRise(),
+                  _sunSet(),
+                  _wind(),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
     }
-
   }
 
   Map<String, String> get3WayTime(int secondsFromEpoch, int timeOffSet) {
@@ -1223,7 +1226,9 @@ class _WeatherState extends State<Weather> {
         DateTime.fromMillisecondsSinceEpoch(secondsFromEpoch * 1000).toUtc();
     DateTime thereTime = utcTime.add(Duration(minutes: timeOffSet));
     DateTime hereTime = utcTime.toLocal();
-    String there = (timeOffSet != 2000) ? DateFormat('EEEE MMMM d, HH:mm').format(thereTime) : 'UNKNOWN, INVALID';
+    String there = (timeOffSet != 2000)
+        ? DateFormat('EEEE MMMM d, HH:mm').format(thereTime)
+        : 'UNKNOWN, INVALID';
     String here = DateFormat('EEEE MMMM d, HH:mm').format(hereTime);
     String utc = DateFormat('EEEE MMMM d, HH:mm').format(utcTime);
     return {

@@ -20,7 +20,7 @@ class WeatherForeCast extends StatefulWidget {
 
 class _WeatherForeCastState extends State<WeatherForeCast> {
   final double textHeight = 1.5;
-  
+
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> foreCastJson;
@@ -81,7 +81,8 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
           return Container(
             width: 100,
             child: CachedNetworkImage(
-              imageUrl: 'http://openweathermap.org/img/w/${foreCast['weather'][0]['icon']}.png',
+              imageUrl:
+                  'http://openweathermap.org/img/w/${foreCast['weather'][0]['icon']}.png',
             ),
           );
         }
@@ -183,8 +184,7 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
                       ),
                     ),
                     TextSpan(
-                      text:
-                          '${foreCast['wind']['deg'].round()}\u00B0, ',
+                      text: '${foreCast['wind']['deg'].round()}\u00B0, ',
                       style: TextStyle(
                         height: textHeight,
                         color: Colors.black,
@@ -207,7 +207,7 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
             ],
           );
         }
-        
+
         Column _temp() {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -225,8 +225,7 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
                       ),
                     ),
                     TextSpan(
-                      text:
-                          '${foreCast['main']['temp'].round()}\u00B0',
+                      text: '${foreCast['main']['temp'].round()}\u00B0',
                       style: TextStyle(
                         height: textHeight,
                         color: Colors.black,
@@ -276,8 +275,7 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
                       ),
                     ),
                     TextSpan(
-                      text:
-                          '${foreCast['main']['temp_min'].round()}\u00B0',
+                      text: '${foreCast['main']['temp_min'].round()}\u00B0',
                       style: TextStyle(
                         height: textHeight,
                         color: Colors.black,
@@ -327,8 +325,7 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
                       ),
                     ),
                     TextSpan(
-                      text:
-                          '${foreCast['main']['temp_max'].round()}\u00B0',
+                      text: '${foreCast['main']['temp_max'].round()}\u00B0',
                       style: TextStyle(
                         height: textHeight,
                         color: Colors.black,
@@ -982,8 +979,8 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
       foreCastJson = jsonDecode(widget.weatherForeCast);
       return Container(
         margin: EdgeInsets.symmetric(
-            vertical: 3,
-            horizontal: 6,
+          vertical: 3,
+          horizontal: 6,
         ),
         decoration: myBoxDecoration(ivory),
         padding: EdgeInsets.all(5.0),
@@ -991,11 +988,11 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
           children: createForeCast(foreCastJson['list']),
         ),
       );
-    } catch(e) {
+    } catch (e) {
       return Container(
         margin: EdgeInsets.symmetric(
-            vertical: 3,
-            horizontal: 6,
+          vertical: 3,
+          horizontal: 6,
         ),
         padding: myBoxPadding,
         decoration: myBoxDecoration(ivory),
@@ -1037,7 +1034,9 @@ class _WeatherForeCastState extends State<WeatherForeCast> {
         DateTime.fromMillisecondsSinceEpoch(secondsFromEpoch * 1000).toUtc();
     DateTime thereTime = utcTime.add(Duration(minutes: timeOffSet));
     DateTime hereTime = utcTime.toLocal();
-    String there = (timeOffSet != 2000) ? DateFormat('EEEE MMMM d, HH:mm').format(thereTime) : 'UNKNOWN, INVALID';
+    String there = (timeOffSet != 2000)
+        ? DateFormat('EEEE MMMM d, HH:mm').format(thereTime)
+        : 'UNKNOWN, INVALID';
     String here = DateFormat('EEEE MMMM d, HH:mm').format(hereTime);
     String utc = DateFormat('EEEE MMMM d, HH:mm').format(utcTime);
     return {

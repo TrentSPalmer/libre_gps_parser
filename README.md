@@ -39,3 +39,9 @@ _____
 * add more things to be implemented
 * add input from Bing Maps, Mapquest apps
 * add other elevation api server options
+* include shared-prefs import/export in history import/export
+
+## archive
+* [Previous Versions of Libre Gps Parser](https://trentsonlinedocs.xyz/android_app_archive/libre_gps_parser/)
+
+* [archive sha256sums](https://raw.githubusercontent.com/TrentSPalmer/libre_gps_parser/master/archive_sha256sums.md)

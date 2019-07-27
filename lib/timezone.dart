@@ -34,103 +34,111 @@ class _TimeZoneState extends State<TimeZone> {
     final double textHeight = 1.5;
 
     return Row(
-      children: <Widget> [
+      children: <Widget>[
         Expanded(
           flex: 7,
           child: InkWell(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                Text(
-                  'Time Offset:',
-                  style: TextStyle(
-                    height: textHeight,
-                    color: candyApple,
-                    fontSize: 16,
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: (widget.timeOffSet != 2000) ? '$offSet' : 'INVALID',
-                        style: TextStyle(
-                          height: textHeight,
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                      TextSpan(
-                        text: (widget.timeOffSet != 2000) ? ' minutes, ' : '',
-                        style: TextStyle(
-                          height: textHeight,
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: (widget.isAutoTimeOffSet == 1) ? 'as of' : 'MANUAL SETTING',
-                        style: TextStyle(
-                          height: textHeight,
-                          color: candyApple,
-                          fontSize: 16,
-                        ),
-                      ),
-                      TextSpan(
-                        text: (widget.isAutoTimeOffSet == 1) ? ' $elapsedHours' : '',
-                        style: TextStyle(
-                          height: textHeight,
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                      TextSpan(
-                        text: (widget.isAutoTimeOffSet == 1) ? ' hrs' : '',
-                        style: TextStyle(
-                          height: textHeight,
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                      TextSpan(
-                        text: (widget.isAutoTimeOffSet == 1) ? ' ago' : '',
-                        style: TextStyle(
-                          height: textHeight,
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  final FixedExtentScrollController scrollController =
-                      FixedExtentScrollController(initialItem: _getTimeZoneListIndex());
-                  return AlertDialog(
-                    backgroundColor: ivory,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Time Offset:',
+                    style: TextStyle(
+                      height: textHeight,
+                      color: candyApple,
+                      fontSize: 16,
                     ),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: (widget.timeOffSet != 2000)
+                              ? '$offSet'
+                              : 'INVALID',
+                          style: TextStyle(
+                            height: textHeight,
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                        TextSpan(
+                          text: (widget.timeOffSet != 2000) ? ' minutes, ' : '',
+                          style: TextStyle(
+                            height: textHeight,
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: (widget.isAutoTimeOffSet == 1)
+                              ? 'as of'
+                              : 'MANUAL SETTING',
+                          style: TextStyle(
+                            height: textHeight,
+                            color: candyApple,
+                            fontSize: 16,
+                          ),
+                        ),
+                        TextSpan(
+                          text: (widget.isAutoTimeOffSet == 1)
+                              ? ' $elapsedHours'
+                              : '',
+                          style: TextStyle(
+                            height: textHeight,
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                        TextSpan(
+                          text: (widget.isAutoTimeOffSet == 1) ? ' hrs' : '',
+                          style: TextStyle(
+                            height: textHeight,
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        TextSpan(
+                          text: (widget.isAutoTimeOffSet == 1) ? ' ago' : '',
+                          style: TextStyle(
+                            height: textHeight,
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    final FixedExtentScrollController scrollController =
+                        FixedExtentScrollController(
+                            initialItem: _getTimeZoneListIndex());
+                    return AlertDialog(
+                      backgroundColor: ivory,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      content:
+                          Column(mainAxisSize: MainAxisSize.min, children: <
+                              Widget>[
                         ButtonTheme(
                           height: 75,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(6.0)),
                           ),
                           child: RaisedButton(
                             onPressed: () {
@@ -180,7 +188,8 @@ class _TimeZoneState extends State<TimeZone> {
                                 });
                               }
                             },
-                            children: List<Widget>.generate(timeZoneList.length, (int index) {
+                            children: List<Widget>.generate(timeZoneList.length,
+                                (int index) {
                               return Column(
                                 children: <Widget>[
                                   Container(
@@ -188,21 +197,25 @@ class _TimeZoneState extends State<TimeZone> {
                                     color: ivory,
                                   ),
                                   Container(
-                                    alignment: Alignment(0.0,0.0),
+                                    alignment: Alignment(0.0, 0.0),
                                     height: 80,
-                                    width: (MediaQuery.of(context).size.width * .9),
+                                    width: (MediaQuery.of(context).size.width *
+                                        .9),
                                     decoration: BoxDecoration(
                                       color: peacockBlue,
                                       border: Border.all(
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(6.0)),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         Text(
-                                          _parseTimeZoneOffSet(timeZoneList[index]['offset']),
+                                          _parseTimeZoneOffSet(
+                                              timeZoneList[index]['offset']),
                                           style: TextStyle(
                                             height: textHeight,
                                             color: Colors.white,
@@ -221,7 +234,7 @@ class _TimeZoneState extends State<TimeZone> {
                                     ),
                                   ),
                                   Container(
-                                    height:  10,
+                                    height: 10,
                                     color: ivory,
                                   ),
                                 ],
@@ -229,13 +242,11 @@ class _TimeZoneState extends State<TimeZone> {
                             }),
                           ),
                         ),
-                      ]
-                    ),
-                  );
-                },
-              );
-            }
-          ),
+                      ]),
+                    );
+                  },
+                );
+              }),
         ),
         Expanded(
           flex: 3,
@@ -261,102 +272,104 @@ class _TimeZoneState extends State<TimeZone> {
               */
               onTap: () {
                 showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      backgroundColor: ivory,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                      ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            'The timezone offset should be set and refreshed automatically, '
-                            'by querying an api from teleport. However, because the api is '
-                            'free, the query is only refreshed once a week.\n'
-                            'Additionally, in some cases the result is invalid. Tap the '
-                            'left side of TimeZone Widget to manually set the timezone offset.',
-                            textAlign: TextAlign.center,
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              top: 40,
-                              bottom: 10,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: ivory,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                        ),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'The timezone offset should be set and refreshed automatically, '
+                              'by querying an api from teleport. However, because the api is '
+                              'free, the query is only refreshed once a week.\n'
+                              'Additionally, in some cases the result is invalid. Tap the '
+                              'left side of TimeZone Widget to manually set the timezone offset.',
+                              textAlign: TextAlign.center,
                             ),
-                            child: ButtonTheme(
-                              height: 75,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                            Container(
+                              margin: EdgeInsets.only(
+                                top: 40,
+                                bottom: 10,
                               ),
-                              child: RaisedButton(
-                                color: peacockBlue,
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 150,
-                                      margin: EdgeInsets.only(
-                                        top: 10,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: <Widget>[
-                                          Text(
-                                            'List',
+                              child: ButtonTheme(
+                                height: 75,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6.0)),
+                                ),
+                                child: RaisedButton(
+                                    color: peacockBlue,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Container(
+                                          width: 150,
+                                          margin: EdgeInsets.only(
+                                            top: 10,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'List',
+                                                style: TextStyle(
+                                                  height: textHeight,
+                                                  color: Colors.white,
+                                                  fontSize: 24,
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.open_in_browser,
+                                                size: 48,
+                                                color: Colors.white,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            bottom: 15,
+                                          ),
+                                          child: Text(
+                                            'Of TimeZones',
                                             style: TextStyle(
                                               height: textHeight,
                                               color: Colors.white,
                                               fontSize: 24,
                                             ),
                                           ),
-                                          Icon(
-                                            Icons.open_in_browser,
-                                            size: 48,
-                                            color: Colors.white,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        bottom: 15,
-                                      ),
-                                      child: Text(
-                                        'Of TimeZones',
-                                        style: TextStyle(
-                                          height: textHeight,
-                                          color: Colors.white,
-                                          fontSize: 24,
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  urlLaunch('https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations');
-                                }
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      urlLaunch(
+                                          'https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations');
+                                    }),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                );
+                          ],
+                        ),
+                      );
+                    });
               },
             ),
           ),
         ),
       ],
     );
-
   }
 
   int _getTimeZoneListIndex() {
     // 2001 is a magic number which means auto
     // as in the tz offset is automatically set
-    return timeZoneList.indexOf(timeZoneList.singleWhere((timeZone) => timeZone['offset'] == ((widget.isAutoTimeOffSet == 1) ? 2001 : widget.timeOffSet)));
+    return timeZoneList.indexOf(timeZoneList.singleWhere((timeZone) =>
+        timeZone['offset'] ==
+        ((widget.isAutoTimeOffSet == 1) ? 2001 : widget.timeOffSet)));
   }
 
   String _parseTimeZoneOffSet(int offset) {

@@ -29,7 +29,7 @@ class DatabaseHelper {
 
   // is the timeOffSet automatically set by consulting teleport api
   // (not manually set by spinner)
-  static final String columnIsAutoTimeOffset = 'isAutoTimeOffset';  
+  static final String columnIsAutoTimeOffset = 'isAutoTimeOffset';
 
   // make this a singleton class
   DatabaseHelper._privateConstructor();
@@ -47,10 +47,7 @@ class DatabaseHelper {
   // this opens the database (and creates it if it doesn't exist)
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(
-      documentsDirectory.path,
-      _databaseName
-    );
+    String path = join(documentsDirectory.path, _databaseName);
     return await openDatabase(
       path,
       version: _databaseVersion,
@@ -64,7 +61,8 @@ class DatabaseHelper {
   // you can only ADD one column at a time?
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if ((oldVersion == 1) || (oldVersion == 2)) {
-      await db.execute('''ALTER TABLE $table ADD $columnIsAutoTimeOffset INT''');
+      await db
+          .execute('''ALTER TABLE $table ADD $columnIsAutoTimeOffset INT''');
       await db.execute('''ALTER TABLE $table ADD $columnNotes TEXT''');
     } else if (oldVersion == 3) {
       await db.execute('''ALTER TABLE $table ADD $columnNotes TEXT''');
@@ -144,11 +142,8 @@ class DatabaseHelper {
     Database db = await instance.database;
     List<Map> result = await db.rawQuery(
         'SELECT $columnMapLocation FROM $table ORDER BY $columnViewTime DESC LIMIT 2');
-    return (result.length == 2)
-        ? result[1]['mapLocation']
-        : 'none';
+    return (result.length == 2) ? result[1]['mapLocation'] : 'none';
   }
-
 
   Future<List<String>> sortedMapLocations() async {
     Database db = await instance.database;
@@ -255,9 +250,10 @@ class DatabaseHelper {
         .delete(table, where: '$columnMapLocation = ?', whereArgs: [ml]);
   }
 
-  Future<String> queryDBExport() async{
+  Future<String> queryDBExport() async {
     Database db = await instance.database;
-    List<Map> result = await db.rawQuery('SELECT $columnMapLocation,$columnNotes,$columnIsAutoTimeOffset,$columnTimeOffSet FROM $table');
-    return(jsonEncode(result));
+    List<Map> result = await db.rawQuery(
+        'SELECT $columnMapLocation,$columnNotes,$columnIsAutoTimeOffset,$columnTimeOffSet FROM $table');
+    return (jsonEncode(result));
   }
 }

@@ -6,17 +6,16 @@ import 'package:share/share.dart';
 final double textHeight = 1.5;
 
 Row lnlDec(String latnLong) {
-
-  Future<void> _launchLnL() async{
+  Future<void> _launchLnL() async {
     AndroidIntent intent = AndroidIntent(
-        action: 'action_view',
-        data: Uri.encodeFull('geo:$latnLong?z=12'),
-        package: 'com.google.android.apps.maps',
+      action: 'action_view',
+      data: Uri.encodeFull('geo:$latnLong?z=12'),
+      package: 'com.google.android.apps.maps',
     );
     await intent.launch();
   }
 
-  List<String> _latNLong = ['x','y'];
+  List<String> _latNLong = ['x', 'y'];
   if ((latnLong == 'none') || (latnLong == null)) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -125,5 +124,3 @@ Row lnlDec(String latnLong) {
     );
   }
 }
-
-

@@ -33,12 +33,13 @@ Future<List<int>> refreshTimeOffSet(String mapLocation, String latLong) async {
     try {
       responseJson = jsonDecode(response.body);
       offSetMin = responseJson['_embedded']['location:nearest-cities'][0]
-                    ['_embedded']['location:nearest-city']['_embedded']
-                ['city:timezone']['_embedded']['tz:offsets-now']
-            ['total_offset_min'] ??
-        2000;
+                      ['_embedded']['location:nearest-city']['_embedded']
+                  ['city:timezone']['_embedded']['tz:offsets-now']
+              ['total_offset_min'] ??
+          2000;
     } catch (e) {
-      print('$e in source file global_helper_functions.dart.getTimeOffSet, can\'t assign  Map<String, dynamic> responseJson');
+      print(
+          '$e in source file global_helper_functions.dart.getTimeOffSet, can\'t assign  Map<String, dynamic> responseJson');
     }
     Map<String, dynamic> row = {
       DatabaseHelper.columnMapLocation: mapLocation,
@@ -58,7 +59,7 @@ Future<List<int>> refreshTimeOffSet(String mapLocation, String latLong) async {
   }
 }
 
-Future<List<int>> getTimeOffSet(String mapLocation, String latLong) async{
+Future<List<int>> getTimeOffSet(String mapLocation, String latLong) async {
   final dbHelper = DatabaseHelper.instance;
   final int _timeStamp = newTimeStamp();
   int timeOffSetTime = await dbHelper.queryTimeOffSetTime(mapLocation);
@@ -80,12 +81,13 @@ Future<List<int>> getTimeOffSet(String mapLocation, String latLong) async{
       try {
         responseJson = jsonDecode(response.body);
         offSetMin = responseJson['_embedded']['location:nearest-cities'][0]
-                      ['_embedded']['location:nearest-city']['_embedded']
-                  ['city:timezone']['_embedded']['tz:offsets-now']
-              ['total_offset_min'] ??
-          2000;
+                        ['_embedded']['location:nearest-city']['_embedded']
+                    ['city:timezone']['_embedded']['tz:offsets-now']
+                ['total_offset_min'] ??
+            2000;
       } catch (e) {
-        print('$e in source file global_helper_functions.dart.getTimeOffSet, can\'t assign  Map<String, dynamic> responseJson');
+        print(
+            '$e in source file global_helper_functions.dart.getTimeOffSet, can\'t assign  Map<String, dynamic> responseJson');
       }
       Map<String, dynamic> row = {
         DatabaseHelper.columnMapLocation: mapLocation,
@@ -132,7 +134,9 @@ Future<String> getWeather(
         Response response = await get(weatherApiUrl);
         if (response.statusCode == 200) {
           Map<String, dynamic> responseJson = jsonDecode(response.body);
-          weatherID = (responseJson['id'] != 0) ? responseJson['id'] : generateFakeWeatherId(lattLong);
+          weatherID = (responseJson['id'] != 0)
+              ? responseJson['id']
+              : generateFakeWeatherId(lattLong);
           Map<String, dynamic> row = {
             DatabaseHelper.columnMapLocation: mapLocation,
             DatabaseHelper.columnWeatherID: weatherID
@@ -150,8 +154,9 @@ Future<String> getWeather(
           }
           return response.body;
         }
-      } catch(e) {
-        print('$e, can\'t connect to openweathermap in global_helper_functions');
+      } catch (e) {
+        print(
+            '$e, can\'t connect to openweathermap in global_helper_functions');
         weatherID ??= generateFakeWeatherId(lattLong); // assign if null
         String weather = await dbHelper.queryWeather(weatherID);
         return weather ?? 'NA';
@@ -178,7 +183,9 @@ Future<String> getWeatherForeCast(
       weatherID = generateFakeWeatherId(lattLong);
     }
     int weatherIDExists = await dbHelper.queryWeatherIDExists(weatherID);
-    if (weatherIDExists == 0) { stale = true; }
+    if (weatherIDExists == 0) {
+      stale = true;
+    }
     if ((weatherID == null) || (stale == true)) {
       List<String> latLong = lattLong.split(',');
       String weatherForeCastApiUrl;
@@ -190,11 +197,11 @@ Future<String> getWeatherForeCast(
             '${weatherForecastApiUrlPrefix}id=$weatherID&units=imperial&appid=$weatherApiID';
       }
       try {
-      Response response = await get(weatherForeCastApiUrl);
+        Response response = await get(weatherForeCastApiUrl);
         if (response.statusCode == 200) {
           Map<String, dynamic> responseJson = jsonDecode(response.body);
           weatherID = responseJson['city']['id'];
-          weatherID ??= generateFakeWeatherId(lattLong);  // assign if null
+          weatherID ??= generateFakeWeatherId(lattLong); // assign if null
           Map<String, dynamic> row = {
             DatabaseHelper.columnMapLocation: mapLocation,
             DatabaseHelper.columnWeatherID: weatherID
@@ -212,8 +219,9 @@ Future<String> getWeatherForeCast(
           }
           return response.body;
         }
-      } catch(e) {
-        print('$e, probably cant connect to openweathermap... no network connection? global_helper_functions.getWeatherForeCast');
+      } catch (e) {
+        print(
+            '$e, probably cant connect to openweathermap... no network connection? global_helper_functions.getWeatherForeCast');
         weatherID ??= generateFakeWeatherId(lattLong); // assign if null
         String weatherForeCast = await dbHelper.queryWeatherForeCast(weatherID);
         return (weatherForeCast);
@@ -249,18 +257,39 @@ int newTimeStamp() {
 }
 
 Future<String> parseMapUrl(String mapUrl) async {
-  try {
-    Response response = await get(mapUrl);
-    RegExp gmapUrl = RegExp(
-        r'https://www.google.com/(maps/preview)/(place)/([^/]*)/([^/]*)/data');
-    String mapInfo = response.body;
-    Match match = gmapUrl.firstMatch(mapInfo);
-    String subMapInfo = match.group(4);
-    RegExp subGmapUrl = RegExp(r'@([^,]*,[^,]*),([^,]*,[^,]*)');
-    Match subMatch = subGmapUrl.firstMatch(subMapInfo);
-    return subMatch.group(1);
-  } catch(e) {
-    print('$e can\'t connect to internet in global_helper_functions.parseMapUrl');
+  if (mapUrl.contains('mapq.st')) {
+    try {
+      Response response = await get(mapUrl);
+      String mapInfo = response.body;
+      RegExp _latExp = RegExp(
+          r'(<meta)\s*(property="place:location:latitude")\s*(content=")(.+)"\s*(/>)');
+      Match _latMatch = _latExp.firstMatch(mapInfo);
+      RegExp _longExp = RegExp(
+          r'(<meta)\s*(property="place:location:longitude")\s*(content=")(.+)"\s*(/>)');
+      Match _longMatch = _longExp.firstMatch(mapInfo);
+      String result = _latMatch.group(4) + ',' + _longMatch.group(4);
+      return (result);
+    } catch (e) {
+      print(
+          '$e can\'t connect to internet in global_helper_functions.parseMapUrl');
+    }
+  } else if ((mapUrl.contains('maps.google')) ||
+      (mapUrl.contains('maps.app.goo.gl'))) {
+    try {
+      Response response = await get(mapUrl);
+      RegExp gmapUrl = RegExp(
+          r'https://www.google.com/(maps/preview)/(place)/([^/]*)/([^/]*)/data');
+      String mapInfo = response.body;
+      Match match = gmapUrl.firstMatch(mapInfo);
+      String subMapInfo = match.group(4);
+      RegExp subGmapUrl = RegExp(r'@([^,]*,[^,]*),([^,]*,[^,]*)');
+      Match subMatch = subGmapUrl.firstMatch(subMapInfo);
+      String result = subMatch.group(1);
+      return (result);
+    } catch (e) {
+      print(
+          '$e can\'t connect to internet in global_helper_functions.parseMapUrl');
+    }
   }
 }
 
@@ -300,8 +329,9 @@ String convertCoordinates(String latNLong) {
     String gpsDMS =
         lat[0] + '\u00B0 ' + latMinSec + ',' + long[0] + '\u00B0 ' + longMinSec;
     return gpsDMS;
-  } catch(e) {
-      print('$e in source file global_helper_functions.convertCoordinates, function parameter probably not a valid latNLong string');
+  } catch (e) {
+    print(
+        '$e in source file global_helper_functions.convertCoordinates, function parameter probably not a valid latNLong string');
   }
 }
 
@@ -314,19 +344,20 @@ String getMinSec(String numString) {
   return minSecs;
 }
 
-
 String weatherConditions(String weatherConditions) {
   int numSpaces = (' '.allMatches(weatherConditions)).length;
   if (numSpaces > 1) {
     int firstSpace = weatherConditions.indexOf(' ');
     int secondSpace = (weatherConditions.indexOf(' ', firstSpace + 1));
-    return weatherConditions.replaceRange(secondSpace, (secondSpace + 1), '\n').toUpperCase();
+    return weatherConditions
+        .replaceRange(secondSpace, (secondSpace + 1), '\n')
+        .toUpperCase();
   } else {
     return weatherConditions.toUpperCase();
   }
 }
 
-Future<void> urlLaunch(String url) async{
+Future<void> urlLaunch(String url) async {
   if (await canLaunch(url)) {
     await launch(url);
   } else {
@@ -338,7 +369,8 @@ int generateFakeWeatherId(String latLong) {
   List<String> _latLongParts = latLong.split(',');
   List<String> _shortLat = _latLongParts[0].split('.');
   List<String> _shortLong = _latLongParts[1].split('.');
-  String _fakeIDString = _shortLat[0].replaceFirst('-','8') + _shortLong[0].replaceFirst('-','8');
+  String _fakeIDString = _shortLat[0].replaceFirst('-', '8') +
+      _shortLong[0].replaceFirst('-', '8');
   // you know a weatherID is fake because it is less than zero
   return (0 - int.parse(_fakeIDString));
 }
@@ -394,8 +426,11 @@ Future<bool> setPreferenceUseWeather(bool useWeather) async {
 
 Future<String> getPreferenceDBExportFileName() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String dbExportFileName = prefs.getString("dbExportFileName") ?? "libre_gps_parser.json";
-  return (dbExportFileName.length > 0) ? dbExportFileName : "libre_gps_parser.json";
+  String dbExportFileName =
+      prefs.getString("dbExportFileName") ?? "libre_gps_parser.json";
+  return (dbExportFileName.length > 0)
+      ? dbExportFileName
+      : "libre_gps_parser.json";
 }
 
 Future<bool> setPreferenceDBExportFileName(String dbExportFileName) async {
@@ -410,19 +445,21 @@ Future<bool> importDataBase(String importString) {
   List<dynamic> _importJson = jsonDecode(importString);
   int _importJsonLength = _importJson.length;
   for (int i = 0; i < _importJsonLength; i++) {
-    dbHelper.queryRowExists(_importJson[i]['mapLocation']).then((int rowExists) {
+    dbHelper
+        .queryRowExists(_importJson[i]['mapLocation'])
+        .then((int rowExists) {
       if (rowExists == 0) {
         Map<String, dynamic> row = {
           DatabaseHelper.columnMapLocation: _importJson[i]['mapLocation'],
         };
         if (_importJson[i]['notes'] != null) {
           row['notes'] = _importJson[i]['notes'];
-        } 
+        }
         if (_importJson[i]['isAutoTimeOffset'] == 0) {
           row['timeOffSet'] = _importJson[i]['timeOffSet'];
           row['timeOffSetTime'] = _timeStamp;
           row['isAutoTimeOffset'] = _importJson[i]['isAutoTimeOffset'];
-        } 
+        }
         dbHelper.insert(row);
       }
     });

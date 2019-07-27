@@ -32,391 +32,407 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-
-    Future<void> _showDBImportDialog() async{
+    Future<void> _showDBImportDialog() async {
       Map<PermissionGroup, PermissionStatus> _storagePermissions;
-      PermissionStatus _storagePermission = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
+      PermissionStatus _storagePermission = await PermissionHandler()
+          .checkPermissionStatus(PermissionGroup.storage);
       if (_storagePermission == PermissionStatus.denied) {
-        _storagePermissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+        _storagePermissions = await PermissionHandler()
+            .requestPermissions([PermissionGroup.storage]);
       }
-      if ((_storagePermission == PermissionStatus.granted) || (_storagePermissions.toString() == PermissionStatus.granted.toString())) {
+      if ((_storagePermission == PermissionStatus.granted) ||
+          (_storagePermissions.toString() ==
+              PermissionStatus.granted.toString())) {
         showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: ivory,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(6.0)),
-              ),
-              title: Text(
-                'You can import a\njson backup of\nyour database',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: candyApple,
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: ivory,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
                 ),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 40,
-                      bottom: 10,
-                    ),
-                    child: ButtonTheme(
-                      height: 55,
-                      padding: EdgeInsets.only(
-                          top: 5,
-                          right: 12,
-                          bottom: 12,
-                          left: 10
+                title: Text(
+                  'You can import a\njson backup of\nyour database',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: candyApple,
+                  ),
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 40,
+                        bottom: 10,
                       ),
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                        ),
-                        color: peacockBlue,
-                        child: Text(
-                          'Select File',
-                          style: TextStyle(
-                            height: textHeight,
-                            color: Colors.white,
-                            fontSize: 24,
-                          ),
-                        ),
-                        onPressed: () async{
-                          String _filePath;
-                          _filePath = await FilePicker.getFilePath(type: FileType.ANY);
-                          Navigator.of(context).pop();
-                          try {
-                            String _importString = await File(_filePath).readAsString();
-                            bool _imported = await importDataBase(_importString);
-                            if (_imported) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    backgroundColor: ivory,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                    ),
-                                    title: Text(
-                                      'Importing From\n\'$_filePath\'\n Succeeded!',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: candyApple,
-                                      ),
-                                    ),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                            top: 40,
-                                            bottom: 10,
+                      child: ButtonTheme(
+                        height: 55,
+                        padding: EdgeInsets.only(
+                            top: 5, right: 12, bottom: 12, left: 10),
+                        child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6.0)),
+                            ),
+                            color: peacockBlue,
+                            child: Text(
+                              'Select File',
+                              style: TextStyle(
+                                height: textHeight,
+                                color: Colors.white,
+                                fontSize: 24,
+                              ),
+                            ),
+                            onPressed: () async {
+                              String _filePath;
+                              _filePath = await FilePicker.getFilePath(
+                                  type: FileType.ANY);
+                              Navigator.of(context).pop();
+                              try {
+                                String _importString =
+                                    await File(_filePath).readAsString();
+                                bool _imported =
+                                    await importDataBase(_importString);
+                                if (_imported) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: ivory,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(6.0)),
                                           ),
-                                          child: ButtonTheme(
-                                            height: 55,
-                                            padding: EdgeInsets.only(
-                                                top: 5,
-                                                right: 12,
-                                                bottom: 12,
-                                                left: 10
+                                          title: Text(
+                                            'Importing From\n\'$_filePath\'\n Succeeded!',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: candyApple,
                                             ),
-                                            child: RaisedButton(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                              ),
-                                              color: peacockBlue,
-                                              child: Text(
-                                                'OK',
-                                                style: TextStyle(
-                                                  height: textHeight,
-                                                  color: Colors.white,
-                                                  fontSize: 24,
+                                          ),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  top: 40,
+                                                  bottom: 10,
+                                                ),
+                                                child: ButtonTheme(
+                                                  height: 55,
+                                                  padding: EdgeInsets.only(
+                                                      top: 5,
+                                                      right: 12,
+                                                      bottom: 12,
+                                                      left: 10),
+                                                  child: RaisedButton(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    6.0)),
+                                                      ),
+                                                      color: peacockBlue,
+                                                      child: Text(
+                                                        'OK',
+                                                        style: TextStyle(
+                                                          height: textHeight,
+                                                          color: Colors.white,
+                                                          fontSize: 24,
+                                                        ),
+                                                      ),
+                                                      onPressed: () async {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      }),
                                                 ),
                                               ),
-                                              onPressed: () async{
-                                                Navigator.of(context).pop();
-                                              }
-                                            ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                        );
+                                      });
                                 }
-                              );
-                            }
-                          } catch(e) {
-                            print(e);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: ivory,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                  ),
-                                  title: Text(
-                                    'Oops, something went wrong',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: candyApple,
-                                    ),
-                                  ),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          top: 40,
-                                          bottom: 10,
+                              } catch (e) {
+                                print(e);
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: ivory,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6.0)),
                                         ),
-                                        child: ButtonTheme(
-                                          height: 55,
-                                          padding: EdgeInsets.only(
-                                              top: 5,
-                                              right: 12,
-                                              bottom: 12,
-                                              left: 10
+                                        title: Text(
+                                          'Oops, something went wrong',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: candyApple,
                                           ),
-                                          child: RaisedButton(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                            ),
-                                            color: peacockBlue,
-                                            child: Text(
-                                              'OK',
-                                              style: TextStyle(
-                                                height: textHeight,
-                                                color: Colors.white,
-                                                fontSize: 24,
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                top: 40,
+                                                bottom: 10,
+                                              ),
+                                              child: ButtonTheme(
+                                                height: 55,
+                                                padding: EdgeInsets.only(
+                                                    top: 5,
+                                                    right: 12,
+                                                    bottom: 12,
+                                                    left: 10),
+                                                child: RaisedButton(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  6.0)),
+                                                    ),
+                                                    color: peacockBlue,
+                                                    child: Text(
+                                                      'OK',
+                                                      style: TextStyle(
+                                                        height: textHeight,
+                                                        color: Colors.white,
+                                                        fontSize: 24,
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }),
                                               ),
                                             ),
-                                            onPressed: () async{
-                                              Navigator.of(context).pop();
-                                            }
-                                          ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
+                                      );
+                                    });
                               }
-                            );
-                          }
-                        }
+                            }),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }
-        );
+                  ],
+                ),
+              );
+            });
       }
     }
 
-    Future<void> _showDBExportDialog() async{
+    Future<void> _showDBExportDialog() async {
       Map<PermissionGroup, PermissionStatus> _storagePermissions;
-      PermissionStatus _storagePermission = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
+      PermissionStatus _storagePermission = await PermissionHandler()
+          .checkPermissionStatus(PermissionGroup.storage);
       if (_storagePermission == PermissionStatus.denied) {
-        _storagePermissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+        _storagePermissions = await PermissionHandler()
+            .requestPermissions([PermissionGroup.storage]);
       }
-      if ((_storagePermission == PermissionStatus.granted) || (_storagePermissions.toString() == PermissionStatus.granted.toString())) {
+      if ((_storagePermission == PermissionStatus.granted) ||
+          (_storagePermissions.toString() ==
+              PermissionStatus.granted.toString())) {
         Directory sdcard = await getExternalStorageDirectory();
         showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: ivory,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(6.0)),
-              ),
-              title: Text(
-                'Export File Name?',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: candyApple,
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: ivory,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
                 ),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-               children: <Widget>[
-                  Text(
-                    'DataBase will be\nexported to json file.',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                title: Text(
+                  'Export File Name?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: candyApple,
                   ),
-                  TextField(
-                    controller: _dbExportFileNameController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      hintText: this._dbExportFileNameString,
-                    ),
-                    onChanged: (text) {
-                      this._dbExportFileNameString = (text.length > 0) ? text : "libre_gps_parser.json";
-                    },
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 40,
-                      bottom: 10,
-                    ),
-                    child: ButtonTheme(
-                      height: 55,
-                      padding: EdgeInsets.only(
-                          top: 5,
-                          right: 12,
-                          bottom: 12,
-                          left: 10
-                      ),
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                        ),
-                        color: peacockBlue,
-                        child: Text(
-                          'Export',
-                          style: TextStyle(
-                            height: textHeight,
-                            color: Colors.white,
-                            fontSize: 24,
-                          ),
-                        ),
-                        onPressed: () async{
-                          _updatedbExportFileName();
-                          final dbHelper = DatabaseHelper.instance;
-                          String _dbExportString = await dbHelper.queryDBExport();
-                          String _absoluteDBExportFileName = '${sdcard.path}/${this._dbExportFileNameString}';
-                          File _file = File(_absoluteDBExportFileName);
-                          File _result = await _file.writeAsString(_dbExportString);
-                          Navigator.of(context).pop();
-                          if (_result == null) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: ivory,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                  ),
-                                  title: Text(
-                                    'Writing To\n\'$_absoluteDBExportFileName\'\n(sdcard) Failed!',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: candyApple,
-                                    ),
-                                  ),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          top: 40,
-                                          bottom: 10,
-                                        ),
-                                        child: ButtonTheme(
-                                          height: 55,
-                                          padding: EdgeInsets.only(
-                                              top: 5,
-                                              right: 12,
-                                              bottom: 12,
-                                              left: 10
-                                          ),
-                                          child: RaisedButton(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                            ),
-                                            color: peacockBlue,
-                                            child: Text(
-                                              'OK',
-                                              style: TextStyle(
-                                                height: textHeight,
-                                                color: Colors.white,
-                                                fontSize: 24,
-                                              ),
-                                            ),
-                                            onPressed: () async{
-                                              Navigator.of(context).pop();
-                                            }
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                            );
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: ivory,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                  ),
-                                  title: Text(
-                                    'Writing To\n\'$_absoluteDBExportFileName\'\n(sdcard) Succeeded!',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: candyApple,
-                                    ),
-                                  ),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          top: 40,
-                                          bottom: 10,
-                                        ),
-                                        child: ButtonTheme(
-                                          height: 55,
-                                          padding: EdgeInsets.only(
-                                              top: 5,
-                                              right: 12,
-                                              bottom: 12,
-                                              left: 10
-                                          ),
-                                          child: RaisedButton(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                            ),
-                                            color: peacockBlue,
-                                            child: Text(
-                                              'OK',
-                                              style: TextStyle(
-                                                height: textHeight,
-                                                color: Colors.white,
-                                                fontSize: 24,
-                                              ),
-                                            ),
-                                            onPressed: () async{
-                                              Navigator.of(context).pop();
-                                            }
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                            );
-                          }
-                        }
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      'DataBase will be\nexported to json file.',
+                      style: TextStyle(
+                        fontSize: 16,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }
-        );
+                    TextField(
+                      controller: _dbExportFileNameController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        hintText: this._dbExportFileNameString,
+                      ),
+                      onChanged: (text) {
+                        this._dbExportFileNameString =
+                            (text.length > 0) ? text : "libre_gps_parser.json";
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 40,
+                        bottom: 10,
+                      ),
+                      child: ButtonTheme(
+                        height: 55,
+                        padding: EdgeInsets.only(
+                            top: 5, right: 12, bottom: 12, left: 10),
+                        child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6.0)),
+                            ),
+                            color: peacockBlue,
+                            child: Text(
+                              'Export',
+                              style: TextStyle(
+                                height: textHeight,
+                                color: Colors.white,
+                                fontSize: 24,
+                              ),
+                            ),
+                            onPressed: () async {
+                              _updatedbExportFileName();
+                              final dbHelper = DatabaseHelper.instance;
+                              String _dbExportString =
+                                  await dbHelper.queryDBExport();
+                              String _absoluteDBExportFileName =
+                                  '${sdcard.path}/${this._dbExportFileNameString}';
+                              File _file = File(_absoluteDBExportFileName);
+                              File _result =
+                                  await _file.writeAsString(_dbExportString);
+                              Navigator.of(context).pop();
+                              if (_result == null) {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: ivory,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6.0)),
+                                        ),
+                                        title: Text(
+                                          'Writing To\n\'$_absoluteDBExportFileName\'\n(sdcard) Failed!',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: candyApple,
+                                          ),
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                top: 40,
+                                                bottom: 10,
+                                              ),
+                                              child: ButtonTheme(
+                                                height: 55,
+                                                padding: EdgeInsets.only(
+                                                    top: 5,
+                                                    right: 12,
+                                                    bottom: 12,
+                                                    left: 10),
+                                                child: RaisedButton(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  6.0)),
+                                                    ),
+                                                    color: peacockBlue,
+                                                    child: Text(
+                                                      'OK',
+                                                      style: TextStyle(
+                                                        height: textHeight,
+                                                        color: Colors.white,
+                                                        fontSize: 24,
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: ivory,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6.0)),
+                                        ),
+                                        title: Text(
+                                          'Writing To\n\'$_absoluteDBExportFileName\'\n(sdcard) Succeeded!',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: candyApple,
+                                          ),
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                top: 40,
+                                                bottom: 10,
+                                              ),
+                                              child: ButtonTheme(
+                                                height: 55,
+                                                padding: EdgeInsets.only(
+                                                    top: 5,
+                                                    right: 12,
+                                                    bottom: 12,
+                                                    left: 10),
+                                                child: RaisedButton(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  6.0)),
+                                                    ),
+                                                    color: peacockBlue,
+                                                    child: Text(
+                                                      'OK',
+                                                      style: TextStyle(
+                                                        height: textHeight,
+                                                        color: Colors.white,
+                                                        fontSize: 24,
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              }
+                            }),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            });
       }
     }
 
@@ -450,7 +466,8 @@ class _SettingsState extends State<Settings> {
                       child: Switch(
                         value: this._useElevation,
                         onChanged: (value) {
-                          setPreferenceUseElevation(value).then((bool committed) {
+                          setPreferenceUseElevation(value)
+                              .then((bool committed) {
                             setState(() {
                               this._useElevation = value;
                             });
@@ -465,45 +482,47 @@ class _SettingsState extends State<Settings> {
                 ],
               ),
             ),
-            ((this._useElevation) ? Container(
-              padding: myBoxPadding,
-              decoration: myBoxDecoration(ivory),
-              child: Column(
-                children: [
-                  Text(
-                    'Open-Elevation Api Server to Use',
-                  ),
-                  Text(
-                    'Current Value: ${this.elevationServer}',
-                  ),
-                  TextField(
-                    controller: _elevationServerController,
-                    decoration: InputDecoration(
-                      hintText: this.elevationServer,
+            ((this._useElevation)
+                ? Container(
+                    padding: myBoxPadding,
+                    decoration: myBoxDecoration(ivory),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Open-Elevation Api Server to Use',
+                        ),
+                        Text(
+                          'Current Value: ${this.elevationServer}',
+                        ),
+                        TextField(
+                          controller: _elevationServerController,
+                          decoration: InputDecoration(
+                            hintText: this.elevationServer,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: 20.0,
+                            bottom: 5.0,
+                          ),
+                          child: RaisedButton.icon(
+                            label: Text(
+                              "Update Elevation Server",
+                            ),
+                            icon: Icon(
+                              Icons.refresh,
+                              size: 50.0,
+                            ),
+                            color: candyApple,
+                            onPressed: () {
+                              _updateElevationServer();
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 20.0,
-                      bottom: 5.0,
-                    ),
-                    child: RaisedButton.icon(
-                      label: Text(
-                        "Update Elevation Server",
-                      ),
-                      icon: Icon(
-                        Icons.refresh,
-                        size: 50.0,
-                      ),
-                      color: candyApple,
-                      onPressed: () {
-                        _updateElevationServer();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ) : Container()),
+                  )
+                : Container()),
             Container(
               padding: myBoxPadding,
               decoration: myBoxDecoration(ivory),
@@ -540,138 +559,140 @@ class _SettingsState extends State<Settings> {
                 ],
               ),
             ),
-            ((this._useWeather) ? Container(
+            ((this._useWeather)
+                ? Container(
+                    padding: myBoxPadding,
+                    decoration: myBoxDecoration(ivory),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Open Weather Map Api Key to Use',
+                        ),
+                        Text(
+                          'Current Value: ${this.shortOWMAK}...',
+                        ),
+                        TextField(
+                          controller: _oWMKController,
+                          decoration: InputDecoration(
+                            hintText: '${this.shortOWMAK}...',
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: 20.0,
+                            bottom: 5.0,
+                          ),
+                          child: RaisedButton.icon(
+                            label: Text(
+                              "Update ... Api Key",
+                            ),
+                            icon: Icon(
+                              Icons.refresh,
+                              size: 50.0,
+                            ),
+                            color: candyApple,
+                            onPressed: () {
+                              _updateOpenWeatherMapApiKey();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container()),
+            Container(
               padding: myBoxPadding,
               decoration: myBoxDecoration(ivory),
-              child: Column(
+              child: Row(
                 children: [
-                  Text(
-                    'Open Weather Map Api Key to Use',
-                  ),
-                  Text(
-                    'Current Value: ${this.shortOWMAK}...',
-                  ),
-                  TextField(
-                    controller: _oWMKController,
-                    decoration: InputDecoration(
-                      hintText: '${this.shortOWMAK}...',
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 20.0,
-                      bottom: 5.0,
-                    ),
-                    child: RaisedButton.icon(
-                      label: Text(
-                        "Update ... Api Key",
-                      ),
+                  Expanded(
+                    flex: 2,
+                    child: IconButton(
+                      alignment: Alignment.center,
                       icon: Icon(
-                        Icons.refresh,
-                        size: 50.0,
+                        Icons.arrow_back,
+                        color: candyApple,
                       ),
-                      color: candyApple,
+                      iconSize: 60.0,
                       onPressed: () {
-                        _updateOpenWeatherMapApiKey();
+                        _showDBExportDialog();
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      'Export DataBase',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        height: textHeight,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: IconButton(
+                      alignment: Alignment.center,
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        color: candyApple,
+                      ),
+                      iconSize: 60.0,
+                      onPressed: () {
+                        _showDBExportDialog();
                       },
                     ),
                   ),
                 ],
               ),
-            ) : Container()),
-            Container(
-              padding: myBoxPadding,
-              decoration: myBoxDecoration(ivory),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: IconButton(
-                        alignment: Alignment.center,
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: candyApple,
-                        ),
-                        iconSize: 60.0,
-                        onPressed: () {
-                          _showDBExportDialog();
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 6,
-                      child: Text(
-                        'Export DataBase',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          height: textHeight,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: IconButton(
-                        alignment: Alignment.center,
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: candyApple,
-                        ),
-                        iconSize: 60.0,
-                        onPressed: () {
-                          _showDBExportDialog();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
             ),
             Container(
               padding: myBoxPadding,
               decoration: myBoxDecoration(ivory),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: IconButton(
-                        alignment: Alignment.center,
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: candyApple,
-                        ),
-                        iconSize: 60.0,
-                        onPressed: () {
-                          _showDBImportDialog();
-                        },
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: IconButton(
+                      alignment: Alignment.center,
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        color: candyApple,
+                      ),
+                      iconSize: 60.0,
+                      onPressed: () {
+                        _showDBImportDialog();
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      'Import DataBase',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        height: textHeight,
+                        fontSize: 20,
                       ),
                     ),
-                    Expanded(
-                      flex: 6,
-                      child: Text(
-                        'Import DataBase',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          height: textHeight,
-                          fontSize: 20,
-                        ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: IconButton(
+                      alignment: Alignment.center,
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: candyApple,
                       ),
+                      iconSize: 60.0,
+                      onPressed: () {
+                        _showDBImportDialog();
+                      },
                     ),
-                    Expanded(
-                      flex: 2,
-                      child: IconButton(
-                        alignment: Alignment.center,
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: candyApple,
-                        ),
-                        iconSize: 60.0,
-                        onPressed: () {
-                          _showDBImportDialog();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -738,5 +759,4 @@ class _SettingsState extends State<Settings> {
     Navigator.pop(context, 3);
     return Future.value(false);
   }
-
 }

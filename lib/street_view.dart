@@ -8,9 +8,9 @@ InkWell streetView(String latnLong) {
   return InkWell(
     onTap: () {
       AndroidIntent _intent = AndroidIntent(
-        action: 'action_view',
-        data: Uri.encodeFull('google.streetview:cbll=$latnLong'),
-        package: 'com.google.android.apps.maps');
+          action: 'action_view',
+          data: Uri.encodeFull('google.streetview:cbll=$latnLong'),
+          package: 'com.google.android.apps.maps');
       _intent.launch();
     },
     child: Row(

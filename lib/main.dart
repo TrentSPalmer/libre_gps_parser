@@ -42,7 +42,8 @@ class _LatNLongState extends State<LatNLong> {
   final dbHelper = DatabaseHelper.instance;
   static const platform = const MethodChannel('app.channel.shared.data');
   // "static" variables are hard-coded into the class rather than instances
-  static RegExp gmapExp = RegExp(r'(https://maps.app.goo.gl/|https://maps.google.com/)(.*$)');
+  static RegExp mapExp = RegExp(
+      r'(https://maps.app.goo.gl/|https://maps.google.com/|https?://mapq.st/)(.*$)');
   String widgetMapLocation = "none";
   String latnLong = "none";
   String latnLongDMS = "none";
@@ -83,11 +84,10 @@ class _LatNLongState extends State<LatNLong> {
 
     Widget _timezone() {
       return TimeZone(
-        parentAction: this._userTzOffset,
-        timeOffSet: this.timeOffSet,
-        timeOffSetTime: this.timeOffSetTime,
-        isAutoTimeOffSet: this.isAutoTimeOffSet
-      );
+          parentAction: this._userTzOffset,
+          timeOffSet: this.timeOffSet,
+          timeOffSetTime: this.timeOffSetTime,
+          isAutoTimeOffSet: this.isAutoTimeOffSet);
     }
 
     InkWell _delete() {
@@ -104,98 +104,97 @@ class _LatNLongState extends State<LatNLong> {
         ),
         onTap: () {
           showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: ivory,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                ),
-                title: Text(
-                  'Really?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: candyApple,
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  backgroundColor: ivory,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(6.0)),
                   ),
-                ),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      'Delete this location from',
-                      textAlign: TextAlign.center,
+                  title: Text(
+                    'Really?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: candyApple,
                     ),
-                    Text(
-                      'the face of the earth forever?',
-                      textAlign: TextAlign.center,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: 40,
-                        bottom: 10,
+                  ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        'Delete this location from',
+                        textAlign: TextAlign.center,
                       ),
-                      child: Wrap(
-                        runSpacing: 30,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 15,
-                            ),
-                            child: ButtonTheme(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      Text(
+                        'the face of the earth forever?',
+                        textAlign: TextAlign.center,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 40,
+                          bottom: 10,
+                        ),
+                        child: Wrap(
+                          runSpacing: 30,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 15,
                               ),
-                              height: 75,
-                              child: RaisedButton(
-                                color: peacockBlue,
-                                child: Text(
-                                  "launch iCBMs!",
-                                  style: TextStyle(
-                                    height: textHeight,
-                                    color: Colors.white,
-                                    fontSize: 24,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  _deleteLocation();
-                                }
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 15,
-                            ),
-                            child: ButtonTheme(
-                              height: 75,
-                              child: RaisedButton(
+                              child: ButtonTheme(
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6.0)),
                                 ),
-                                color: peacockBlue,
-                                child: Text(
-                                  "oops! nvrmnd!",
-                                  style: TextStyle(
-                                    height: textHeight,
-                                    color: Colors.white,
-                                    fontSize: 24,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                }
+                                height: 75,
+                                child: RaisedButton(
+                                    color: peacockBlue,
+                                    child: Text(
+                                      "launch iCBMs!",
+                                      style: TextStyle(
+                                        height: textHeight,
+                                        color: Colors.white,
+                                        fontSize: 24,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      _deleteLocation();
+                                    }),
                               ),
                             ),
-                          ),
-                        ],
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 15,
+                              ),
+                              child: ButtonTheme(
+                                height: 75,
+                                child: RaisedButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(6.0)),
+                                    ),
+                                    color: peacockBlue,
+                                    child: Text(
+                                      "oops! nvrmnd!",
+                                      style: TextStyle(
+                                        height: textHeight,
+                                        color: Colors.white,
+                                        fontSize: 24,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    }),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            }
-          );
+                    ],
+                  ),
+                );
+              });
         },
       );
     }
@@ -216,10 +215,13 @@ class _LatNLongState extends State<LatNLong> {
                   ),
                 ],
               ),
-              onTap: () async{
+              onTap: () async {
                 String _noteText = await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EditNotes(mapLocation: this.widgetMapLocation,)),
+                  MaterialPageRoute(
+                      builder: (context) => EditNotes(
+                            mapLocation: this.widgetMapLocation,
+                          )),
                 );
                 if ((_noteText != null) && (_noteText != this.notes)) {
                   setState(() {
@@ -229,37 +231,42 @@ class _LatNLongState extends State<LatNLong> {
               },
             ),
           ),
-          ((this.notes.length > 0) ? Expanded(
-            flex: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  left: BorderSide(
-                    width: 1.0,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              child: InkWell(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.view_agenda,
-                      size: 48.0,
-                      color: Colors.black,
+          ((this.notes.length > 0)
+              ? Expanded(
+                  flex: 5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          width: 1.0,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-                onTap: () async{
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RenderNotes(notes: this.notes,)),
-                  );
-                },
-              ),
-            ),
-          ) : Container()),
+                    child: InkWell(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.view_agenda,
+                            size: 48.0,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RenderNotes(
+                                    notes: this.notes,
+                                  )),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              : Container()),
         ],
       );
     }
@@ -268,7 +275,7 @@ class _LatNLongState extends State<LatNLong> {
       if (_deviceShortestSide < 400) {
         return Container(
           child: Column(
-            children:  <Widget>[
+            children: <Widget>[
               Container(
                 margin: EdgeInsets.only(
                   left: 6,
@@ -278,7 +285,9 @@ class _LatNLongState extends State<LatNLong> {
                 ),
                 padding: myBoxPadding,
                 decoration: myBoxDecoration(ivory),
-                child: (this.latnLong != null) ? lnlDec(this.latnLong) : lnlDec('none') , 
+                child: (this.latnLong != null)
+                    ? lnlDec(this.latnLong)
+                    : lnlDec('none'),
               ),
               IntrinsicHeight(
                 child: Row(
@@ -294,7 +303,9 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: (this.latnLongDMS != null) ? lnlDeg(this.latnLongDMS) : lnlDeg('none'), 
+                        child: (this.latnLongDMS != null)
+                            ? lnlDeg(this.latnLongDMS)
+                            : lnlDeg('none'),
                       ),
                     ),
                   ],
@@ -314,7 +325,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: _editNotes(), 
+                        child: _editNotes(),
                       ),
                     ),
                     Expanded(
@@ -328,7 +339,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: streetView(this.latnLong), 
+                        child: streetView(this.latnLong),
                       ),
                     ),
                   ],
@@ -370,23 +381,26 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: aboutApp(context), 
+                        child: aboutApp(context),
                       ),
                     ),
-                    ((this._useElev) ? Expanded(
-                      flex: 4,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: 3,
-                            top: 3,
-                            right: 3,
-                            bottom: 3,
-                        ),
-                        padding: myBoxPadding,
-                        decoration: myBoxDecoration(ivory),
-                        child: elevAtion(context, this.elevation, this.feetElevation),
-                      ),
-                    ) : Container()),
+                    ((this._useElev)
+                        ? Expanded(
+                            flex: 4,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                left: 3,
+                                top: 3,
+                                right: 3,
+                                bottom: 3,
+                              ),
+                              padding: myBoxPadding,
+                              decoration: myBoxDecoration(ivory),
+                              child: elevAtion(
+                                  context, this.elevation, this.feetElevation),
+                            ),
+                          )
+                        : Container()),
                     Expanded(
                       flex: 3,
                       child: Container(
@@ -398,7 +412,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: _delete(), 
+                        child: _delete(),
                       ),
                     ),
                   ],
@@ -407,20 +421,22 @@ class _LatNLongState extends State<LatNLong> {
               IntrinsicHeight(
                 child: Row(
                   children: <Widget>[
-                    ((this._useWTHR) ? Expanded(
-                      flex: 7,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: 6,
-                            top: 3,
-                            right: 6,
-                            bottom: 3,
-                        ),
-                        padding: myBoxPadding,
-                        decoration: myBoxDecoration(ivory),
-                        child: _timezone(),
-                      ),
-                    ) : Container()),
+                    ((this._useWTHR)
+                        ? Expanded(
+                            flex: 7,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                left: 6,
+                                top: 3,
+                                right: 6,
+                                bottom: 3,
+                              ),
+                              padding: myBoxPadding,
+                              decoration: myBoxDecoration(ivory),
+                              child: _timezone(),
+                            ),
+                          )
+                        : Container()),
                   ],
                 ),
               ),
@@ -430,7 +446,7 @@ class _LatNLongState extends State<LatNLong> {
       } else if ((_deviceShortestSide >= 400) && (_deviceShortestSide < 650)) {
         return Container(
           child: Column(
-            children:  <Widget>[
+            children: <Widget>[
               IntrinsicHeight(
                 child: Row(
                   children: <Widget>[
@@ -445,7 +461,9 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: (this.latnLongDMS != null) ? lnlDeg(this.latnLongDMS) : lnlDeg('none'), 
+                        child: (this.latnLongDMS != null)
+                            ? lnlDeg(this.latnLongDMS)
+                            : lnlDeg('none'),
                       ),
                     ),
                     Expanded(
@@ -459,7 +477,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: _delete(), 
+                        child: _delete(),
                       ),
                     ),
                   ],
@@ -474,7 +492,9 @@ class _LatNLongState extends State<LatNLong> {
                 ),
                 padding: myBoxPadding,
                 decoration: myBoxDecoration(ivory),
-                child: (this.latnLong != null) ? lnlDec(this.latnLong) : lnlDec('none') , 
+                child: (this.latnLong != null)
+                    ? lnlDec(this.latnLong)
+                    : lnlDec('none'),
               ),
               IntrinsicHeight(
                 child: Row(
@@ -490,7 +510,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: _editNotes(), 
+                        child: _editNotes(),
                       ),
                     ),
                     Expanded(
@@ -504,7 +524,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: streetView(this.latnLong), 
+                        child: streetView(this.latnLong),
                       ),
                     ),
                   ],
@@ -540,7 +560,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: aboutApp(context), 
+                        child: aboutApp(context),
                       ),
                     ),
                   ],
@@ -549,34 +569,39 @@ class _LatNLongState extends State<LatNLong> {
               IntrinsicHeight(
                 child: Row(
                   children: <Widget>[
-                    ((this._useElev) ? Expanded(
-                      flex: 3,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: 6,
-                            top: 3,
-                            right: (this._useWTHR) ? 3 : 6,
-                            bottom: 3,
-                        ),
-                        padding: myBoxPadding,
-                        decoration: myBoxDecoration(ivory),
-                        child: elevAtion(context, this.elevation, this.feetElevation),
-                      ),
-                    ) : Container()),
-                    ((this._useWTHR) ? Expanded(
-                      flex: 7,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: (this._useElev) ? 3 : 6,
-                            top: 3,
-                            right: 6,
-                            bottom: 3,
-                        ),
-                        padding: myBoxPadding,
-                        decoration: myBoxDecoration(ivory),
-                        child: _timezone(),
-                      ),
-                    ) : Container()),
+                    ((this._useElev)
+                        ? Expanded(
+                            flex: 3,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                left: 6,
+                                top: 3,
+                                right: (this._useWTHR) ? 3 : 6,
+                                bottom: 3,
+                              ),
+                              padding: myBoxPadding,
+                              decoration: myBoxDecoration(ivory),
+                              child: elevAtion(
+                                  context, this.elevation, this.feetElevation),
+                            ),
+                          )
+                        : Container()),
+                    ((this._useWTHR)
+                        ? Expanded(
+                            flex: 7,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                left: (this._useElev) ? 3 : 6,
+                                top: 3,
+                                right: 6,
+                                bottom: 3,
+                              ),
+                              padding: myBoxPadding,
+                              decoration: myBoxDecoration(ivory),
+                              child: _timezone(),
+                            ),
+                          )
+                        : Container()),
                   ],
                 ),
               ),
@@ -586,7 +611,7 @@ class _LatNLongState extends State<LatNLong> {
       } else if (_deviceShortestSide >= 650) {
         return Container(
           child: Column(
-            children:  <Widget>[
+            children: <Widget>[
               IntrinsicHeight(
                 child: Row(
                   children: <Widget>[
@@ -601,21 +626,23 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: _editNotes(), 
+                        child: _editNotes(),
                       ),
                     ),
                     Expanded(
                       flex: 5,
                       child: Container(
                         margin: EdgeInsets.only(
-                            left: 3,
-                            top: 6,
-                            right: 3,
-                            bottom: 3,
+                          left: 3,
+                          top: 6,
+                          right: 3,
+                          bottom: 3,
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: (this.latnLong != null) ? lnlDec(this.latnLong) : lnlDec('none'), 
+                        child: (this.latnLong != null)
+                            ? lnlDec(this.latnLong)
+                            : lnlDec('none'),
                       ),
                     ),
                     Expanded(
@@ -629,7 +656,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: _delete(), 
+                        child: _delete(),
                       ),
                     ),
                   ],
@@ -642,14 +669,16 @@ class _LatNLongState extends State<LatNLong> {
                       flex: 5,
                       child: Container(
                         margin: EdgeInsets.only(
-                            left: 6,
-                            top: 3,
-                            right: 3,
-                            bottom: 3,
+                          left: 6,
+                          top: 3,
+                          right: 3,
+                          bottom: 3,
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: (this.latnLongDMS != null) ? lnlDeg(this.latnLongDMS) : lnlDeg('none'), 
+                        child: (this.latnLongDMS != null)
+                            ? lnlDeg(this.latnLongDMS)
+                            : lnlDeg('none'),
                       ),
                     ),
                     Expanded(
@@ -663,7 +692,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: streetView(this.latnLong), 
+                        child: streetView(this.latnLong),
                       ),
                     ),
                     Expanded(
@@ -677,7 +706,7 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
-                        child: aboutApp(context), 
+                        child: aboutApp(context),
                       ),
                     ),
                   ],
@@ -690,10 +719,10 @@ class _LatNLongState extends State<LatNLong> {
                       flex: 4,
                       child: Container(
                         margin: EdgeInsets.only(
-                            left: 6,
-                            top: 3,
-                            right: 3,
-                            bottom: 3,
+                          left: 6,
+                          top: 3,
+                          right: 3,
+                          bottom: 3,
                         ),
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
@@ -702,34 +731,39 @@ class _LatNLongState extends State<LatNLong> {
                         ),
                       ),
                     ),
-                    ((this._useElev) ? Expanded(
-                      flex: 2,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          left: 3,
-                          top: 3,
-                          right: (this._useWTHR) ? 3 : 6,
-                          bottom: 3,
-                        ),
-                        padding: myBoxPadding,
-                        decoration: myBoxDecoration(ivory),
-                        child: elevAtion(context, this.elevation, this.feetElevation),
-                      ),
-                    ) : Container()),
-                    ((this._useWTHR) ? Expanded(
-                      flex: 4,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          left: 3,
-                          top: 3,
-                          right: 6,
-                          bottom: 3,
-                        ),
-                        padding: myBoxPadding,
-                        decoration: myBoxDecoration(ivory),
-                        child: _timezone(),
-                      ),
-                    ) : Container()),
+                    ((this._useElev)
+                        ? Expanded(
+                            flex: 2,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                left: 3,
+                                top: 3,
+                                right: (this._useWTHR) ? 3 : 6,
+                                bottom: 3,
+                              ),
+                              padding: myBoxPadding,
+                              decoration: myBoxDecoration(ivory),
+                              child: elevAtion(
+                                  context, this.elevation, this.feetElevation),
+                            ),
+                          )
+                        : Container()),
+                    ((this._useWTHR)
+                        ? Expanded(
+                            flex: 4,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                left: 3,
+                                top: 3,
+                                right: 6,
+                                bottom: 3,
+                              ),
+                              padding: myBoxPadding,
+                              decoration: myBoxDecoration(ivory),
+                              child: _timezone(),
+                            ),
+                          )
+                        : Container()),
                   ],
                 ),
               ),
@@ -751,7 +785,7 @@ class _LatNLongState extends State<LatNLong> {
             leading: Builder(
               builder: (BuildContext context) {
                 return IconButton(
-                  icon: const Icon(Icons.settings), onPressed: _settings);
+                    icon: const Icon(Icons.settings), onPressed: _settings);
               },
             ),
             title: Text('Libre Gps Parser'),
@@ -764,28 +798,32 @@ class _LatNLongState extends State<LatNLong> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 _top(),
-                ((this._useWTHR) ? Weather(
-                  weatherLocationID: this.weatherLocationID,
-                  weatherConditions: this.weatherConditions,
-                  weatherConditionsIcon: this.weatherConditionsIcon,
-                  weatherCurrentTemp: this.weatherCurrentTemp,
-                  weatherCurrentPressure: this.weatherCurrentPressure,
-                  weatherCurrentHumidity: this.weatherCurrentHumidity,
-                  weatherCurrentTempMin: this.weatherCurrentTempMin,
-                  weatherCurrentTempMax: this.weatherCurrentTempMax,
-                  weatherCurrentVisibility: this.weatherCurrentVisibility,
-                  weatherCurrentWindSpd: this.weatherCurrentWindSpd,
-                  weatherCurrentWindDir: this.weatherCurrentWindDir,
-                  weatherCurrentSunrise: this.weatherCurrentSunrise,
-                  weatherCurrentSunset: this.weatherCurrentSunset,
-                  weatherCurrentDT: this.weatherCurrentDT,
-                  timeOffSet: this.timeOffSet,
-                  parentAction: this._refreshWeather,
-                ) : Container()),
-                ((this._useWTHR) ? WeatherForeCast(
-                  weatherForeCast: this.weatherForeCast,
-                  timeOffSet: this.timeOffSet,
-                ) : Container()),
+                ((this._useWTHR)
+                    ? Weather(
+                        weatherLocationID: this.weatherLocationID,
+                        weatherConditions: this.weatherConditions,
+                        weatherConditionsIcon: this.weatherConditionsIcon,
+                        weatherCurrentTemp: this.weatherCurrentTemp,
+                        weatherCurrentPressure: this.weatherCurrentPressure,
+                        weatherCurrentHumidity: this.weatherCurrentHumidity,
+                        weatherCurrentTempMin: this.weatherCurrentTempMin,
+                        weatherCurrentTempMax: this.weatherCurrentTempMax,
+                        weatherCurrentVisibility: this.weatherCurrentVisibility,
+                        weatherCurrentWindSpd: this.weatherCurrentWindSpd,
+                        weatherCurrentWindDir: this.weatherCurrentWindDir,
+                        weatherCurrentSunrise: this.weatherCurrentSunrise,
+                        weatherCurrentSunset: this.weatherCurrentSunset,
+                        weatherCurrentDT: this.weatherCurrentDT,
+                        timeOffSet: this.timeOffSet,
+                        parentAction: this._refreshWeather,
+                      )
+                    : Container()),
+                ((this._useWTHR)
+                    ? WeatherForeCast(
+                        weatherForeCast: this.weatherForeCast,
+                        timeOffSet: this.timeOffSet,
+                      )
+                    : Container()),
               ],
             ),
           ),
@@ -794,7 +832,7 @@ class _LatNLongState extends State<LatNLong> {
     );
   }
 
-  void _settings() async{
+  void _settings() async {
     int newSetting = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => Settings()),
@@ -804,7 +842,7 @@ class _LatNLongState extends State<LatNLong> {
     }
   }
 
-  void _pushSaved() async{
+  void _pushSaved() async {
     List<String> sortedMapLocations = await dbHelper.sortedMapLocations();
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -865,7 +903,7 @@ class _LatNLongState extends State<LatNLong> {
   Future<void> updateState() async {
     var sharedData = await platform.invokeMethod("getSharedText");
     if (sharedData != null && sharedData is String) {
-      if (gmapExp.hasMatch(sharedData)) {
+      if (mapExp.hasMatch(sharedData)) {
         setState(() {
           this.widgetMapLocation = sharedData;
         });
@@ -883,7 +921,7 @@ class _LatNLongState extends State<LatNLong> {
     await _populateNotes(sharedData);
   }
 
-  Future<void> _populateNotes(String mapLocation) async{
+  Future<void> _populateNotes(String mapLocation) async {
     String _notes = await dbHelper.queryNotes(mapLocation);
     if ((_notes != null) || (_notes != this.notes)) {
       if ((mapLocation.contains('Plataea')) && (_notes.length == 0)) {
@@ -910,7 +948,8 @@ class _LatNLongState extends State<LatNLong> {
         Map<String, dynamic> weatherForeCastJson = jsonDecode(weatherForeCast);
         int _threeHoursAgo = (newTimeStamp() - 10800);
         if (weatherForeCastJson['list'][1]['dt'] < _threeHoursAgo) {
-          weatherForeCast = await getWeatherForeCast(mapLocation, latLong, true);
+          weatherForeCast =
+              await getWeatherForeCast(mapLocation, latLong, true);
           setState(() {
             this.weatherForeCast = weatherForeCast;
           });
@@ -919,12 +958,12 @@ class _LatNLongState extends State<LatNLong> {
     }
   }
 
-  Future<void> _refreshWeather() async{
-    await _populateWeather(this.widgetMapLocation,this.latnLong);
-    await _populateWeatherForeCast(this.widgetMapLocation,this.latnLong);
+  Future<void> _refreshWeather() async {
+    await _populateWeather(this.widgetMapLocation, this.latnLong);
+    await _populateWeatherForeCast(this.widgetMapLocation, this.latnLong);
   }
 
-  Future<void> _populateWeather(String mapLocation, String latLong) async{
+  Future<void> _populateWeather(String mapLocation, String latLong) async {
     if ((this._useWTHR) && (latLong != null)) {
       String weather = await getWeather(mapLocation, latLong, false);
       if (weather == 'NA') {
@@ -943,9 +982,12 @@ class _LatNLongState extends State<LatNLong> {
     }
   }
 
-  Future<void> _updateWeather(Map<String, dynamic> weatherJson,String latLong) async {
+  Future<void> _updateWeather(
+      Map<String, dynamic> weatherJson, String latLong) async {
     if (this._useWTHR) {
-      int _weatherId = (weatherJson['id'] != 0) ? weatherJson['id']: generateFakeWeatherId(latLong);
+      int _weatherId = (weatherJson['id'] != 0)
+          ? weatherJson['id']
+          : generateFakeWeatherId(latLong);
       if ((_weatherId != this.weatherLocationID) ||
           (weatherJson['dt'] != this.weatherCurrentDT)) {
         double tempTemp = (weatherJson['main']['temp'] != null)
@@ -1053,7 +1095,7 @@ class _LatNLongState extends State<LatNLong> {
   }
 
   Future<void> _updateLatNLong(int timeStamp, String mapLocation) async {
-    String mapUrl = gmapExp.stringMatch(mapLocation);
+    String mapUrl = mapExp.stringMatch(mapLocation);
     await parseMapUrl(mapUrl).then((String lattLong) {
       setState(() {
         this.latnLong = lattLong;
@@ -1102,7 +1144,7 @@ class _LatNLongState extends State<LatNLong> {
     }
   }
 
-  Future<void> _deleteLocation() async{
+  Future<void> _deleteLocation() async {
     String _secondNewest = await dbHelper.querySecondNewestMapLocation();
     if (_secondNewest != 'none') {
       String locationToBeDeleted = this.widgetMapLocation;
@@ -1122,10 +1164,12 @@ class _LatNLongState extends State<LatNLong> {
     }
   }
 
-  Future<void> _userTzOffset(int offset) async{
+  Future<void> _userTzOffset(int offset) async {
     if (this._useWTHR) {
-      if (offset > 1999) { // 2001 is magic number for auto
-        List<int> _timeOffSet = await refreshTimeOffSet(this.widgetMapLocation,this.latnLong);
+      if (offset > 1999) {
+        // 2001 is magic number for auto
+        List<int> _timeOffSet =
+            await refreshTimeOffSet(this.widgetMapLocation, this.latnLong);
         setState(() {
           this.timeOffSet = _timeOffSet[0];
           this.timeOffSetTime = _timeOffSet[1];
@@ -1151,7 +1195,7 @@ class _LatNLongState extends State<LatNLong> {
     }
   }
 
-  Future<void> _getUseElevPref() async{
+  Future<void> _getUseElevPref() async {
     bool _useElevation = await getPreferenceUseElevation();
     if (_useElevation != _useElev) {
       setState(() {
@@ -1161,7 +1205,7 @@ class _LatNLongState extends State<LatNLong> {
     await _getUseWeatherPref();
   }
 
-  Future<void> _getUseWeatherPref() async{
+  Future<void> _getUseWeatherPref() async {
     bool _useWeather = await getPreferenceUseWeather();
     if (_useWeather != _useWTHR) {
       setState(() {
