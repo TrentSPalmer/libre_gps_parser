@@ -55,7 +55,7 @@ InkWell aboutApp(BuildContext context) {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Version: 0.1.3\n',
+                            'Version: 0.1.4\n',
                             style: TextStyle(
                               color: candyApple,
                             ),

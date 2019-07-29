@@ -256,6 +256,17 @@ int newTimeStamp() {
   return (date.millisecondsSinceEpoch / 1000).floor();
 }
 
+String _latLongShortener(String latLong) {
+  List<String> _splitLatLong = latLong.split(',');
+  List<String> _splitLat = _splitLatLong[0].split('.');
+  List<String> _splitLong = _splitLatLong[1].split('.');
+  String result = _splitLat[0] + '.';
+  result += ((_splitLat[1].length > 6) ? _splitLat[1].substring(0, 7) : _splitLat[1]);
+  result += ',' + _splitLong[0] + '.';
+  result += ((_splitLong[1].length > 6) ? _splitLong[1].substring(0, 7) : _splitLong[1]);
+  return  result;
+}
+
 Future<String> parseMapUrl(String mapUrl) async {
   if (mapUrl.contains('mapq.st')) {
     try {
@@ -268,7 +279,7 @@ Future<String> parseMapUrl(String mapUrl) async {
           r'(<meta)\s*(property="place:location:longitude")\s*(content=")(.+)"\s*(/>)');
       Match _longMatch = _longExp.firstMatch(mapInfo);
       String result = _latMatch.group(4) + ',' + _longMatch.group(4);
-      return (result);
+      return _latLongShortener(result);
     } catch (e) {
       print(
           '$e can\'t connect to internet in global_helper_functions.parseMapUrl');
@@ -285,7 +296,7 @@ Future<String> parseMapUrl(String mapUrl) async {
       RegExp subGmapUrl = RegExp(r'@([^,]*,[^,]*),([^,]*,[^,]*)');
       Match subMatch = subGmapUrl.firstMatch(subMapInfo);
       String result = subMatch.group(1);
-      return (result);
+      return _latLongShortener(result);
     } catch (e) {
       print(
           '$e can\'t connect to internet in global_helper_functions.parseMapUrl');
