@@ -435,6 +435,19 @@ Future<bool> setPreferenceUseWeather(bool useWeather) async {
   return (committed);
 }
 
+Future<bool> getPreferenceUseShareToMapQuest() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool _useShareToMapQuest = prefs.getBool("useShareToMapQuest") ?? false;
+  return _useShareToMapQuest;
+}
+
+Future<bool> setPreferenceUseShareToMapQuest(bool useShareToMapQuest) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool committed = await prefs.setBool("useShareToMapQuest", useShareToMapQuest);
+  return (committed);
+}
+
+
 Future<String> getPreferenceDBExportFileName() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String dbExportFileName =

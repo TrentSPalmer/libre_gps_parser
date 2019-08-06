@@ -286,8 +286,8 @@ class _LatNLongState extends State<LatNLong> {
                 padding: myBoxPadding,
                 decoration: myBoxDecoration(ivory),
                 child: (this.latnLong != null)
-                    ? lnlDec(this.latnLong)
-                    : lnlDec('none'),
+                    ? lnlDec(this.latnLong,context)
+                    : lnlDec('none',context),
               ),
               IntrinsicHeight(
                 child: Row(
@@ -493,8 +493,8 @@ class _LatNLongState extends State<LatNLong> {
                 padding: myBoxPadding,
                 decoration: myBoxDecoration(ivory),
                 child: (this.latnLong != null)
-                    ? lnlDec(this.latnLong)
-                    : lnlDec('none'),
+                    ? lnlDec(this.latnLong,context)
+                    : lnlDec('none',context),
               ),
               IntrinsicHeight(
                 child: Row(
@@ -641,8 +641,8 @@ class _LatNLongState extends State<LatNLong> {
                         padding: myBoxPadding,
                         decoration: myBoxDecoration(ivory),
                         child: (this.latnLong != null)
-                            ? lnlDec(this.latnLong)
-                            : lnlDec('none'),
+                            ? lnlDec(this.latnLong,context)
+                            : lnlDec('none',context),
                       ),
                     ),
                     Expanded(

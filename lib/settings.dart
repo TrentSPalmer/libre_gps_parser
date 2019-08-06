@@ -22,6 +22,7 @@ class _SettingsState extends State<Settings> {
   final _oWMKController = TextEditingController();
   bool _useElevation = false;
   bool _useWeather = false;
+  bool _useShareToMapQuest = false;
   double textHeight = 1.5;
 
   @override
@@ -606,6 +607,42 @@ class _SettingsState extends State<Settings> {
               child: Row(
                 children: [
                   Expanded(
+                    child: Text(
+                      'Enable Share Decimal Coordinates to MapQuest?',
+                      style: TextStyle(
+                        height: textHeight,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(15.0),
+                    child: Transform.scale(
+                      scale: 2,
+                      child: Switch(
+                        value: this._useShareToMapQuest,
+                        onChanged: (value) {
+                          setPreferenceUseShareToMapQuest(value).then((bool committed) {
+                            setState(() {
+                              this._useShareToMapQuest = value;
+                            });
+                          });
+                        },
+                        activeTrackColor: peacockBlue,
+                        activeColor: navy,
+                        inactiveThumbColor: candyApple,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: myBoxPadding,
+              decoration: myBoxDecoration(ivory),
+              child: Row(
+                children: [
+                  Expanded(
                     flex: 2,
                     child: IconButton(
                       alignment: Alignment.center,
@@ -706,6 +743,7 @@ class _SettingsState extends State<Settings> {
     String _dbEFNS = await getPreferenceDBExportFileName();
     bool _useElev = await getPreferenceUseElevation();
     bool _useWTHR = await getPreferenceUseWeather();
+    bool _useShareToMQst = await getPreferenceUseShareToMapQuest();
     setState(() {
       this.elevationServer = _evServer;
       this.openWeatherMapKey = _oWMK;
@@ -713,6 +751,7 @@ class _SettingsState extends State<Settings> {
       this._useWeather = _useWTHR;
       this.shortOWMAK = _oWMK.substring(0, 5);
       this._dbExportFileNameString = _dbEFNS;
+      this._useShareToMapQuest = _useShareToMQst;
     });
   }
 

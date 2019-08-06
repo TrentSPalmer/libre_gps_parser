@@ -37,7 +37,7 @@ _____
 ## road map
 *
 * add more things to be implemented
-* add input from Bing Maps, Mapquest apps
+* add input from Bing Maps, OSM? 
 * add other elevation api server options
 * include shared-prefs import/export in history import/export
 

@@ -6,3 +6,7 @@ eddc2f07cd8aaf710cdebeead84b1c5d6b82312b4a099bd6cb09372713f0ddd3  libre_gps_pars
 8c32da0c647d3b464678fe327cffe3a6750e402088552fcee7fa16b8789ecb02  libre_gps_parser/0.1.4/armv11/app-release.apk
 9bef42c7919074e3661c8680cb69aa786102c4df47495dd4731efff163a8ed9b  libre_gps_parser/0.1.4/arm64v12/app.aab
 21460b736f6045e569443db8cdac7942c352085b3222628d100814dd5a7217d5  libre_gps_parser/0.1.4/arm64v12/app-release.apk
+14ea6f6ce2566cf02ad5e2f783099eaa178714a5917077774a44b3ba2685bf64  libre_gps_parser/0.1.5/armv13/app.aab
+4a26beeafff34e0d4dd1f08a235fa36ca32746c279cef637d4b47b657ab60c95  libre_gps_parser/0.1.5/armv13/app-release.apk
+248eff0408748b089d13d55266aae1d542d6666ffaa7155bd948b2addf3c5efe  libre_gps_parser/0.1.5/arm64v14/app.aab
+412e83dcc9112b8814f3e261a452cee924a38eb8e14c90a96e3140148caededf  libre_gps_parser/0.1.5/arm64v14/app-release.apk
